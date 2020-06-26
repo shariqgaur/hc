@@ -2,15 +2,15 @@ package com.hc.dao;
 
 import java.util.List;
 
-import com.hc.model.User;
+import com.hc.model.User1;
 
 public interface UserDAL {
 
-	List<User> getAllUsers();
+	List<User1> getAllUsers();
 
-	User getUserById(String userId);
+	User1 getUserById(String userId);
 
-	User addNewUser(User user);
+	User1 addNewUser(User1 user);
 
 	Object getAllUserSettings(String userId);
 

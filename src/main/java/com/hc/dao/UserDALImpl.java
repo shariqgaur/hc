@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import com.hc.model.User;
+import com.hc.model.User1;
 
 @Repository
 public class UserDALImpl implements UserDAL {
@@ -17,19 +17,19 @@ public class UserDALImpl implements UserDAL {
 	private MongoTemplate mongoTemplate;
 
 	@Override
-	public List<User> getAllUsers() {
-		return mongoTemplate.findAll(User.class);
+	public List<User1> getAllUsers() {
+		return mongoTemplate.findAll(User1.class);
 	}
 
 	@Override
-	public User getUserById(String userId) {
+	public User1 getUserById(String userId) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("userId").is(userId));
-		return mongoTemplate.findOne(query, User.class);
+		return mongoTemplate.findOne(query, User1.class);
 	}
 
 	@Override
-	public User addNewUser(User user) {
+	public User1 addNewUser(User1 user) {
 		mongoTemplate.save(user);
 		// Now, user object will contain the ID as well
 		return user;
@@ -39,7 +39,7 @@ public class UserDALImpl implements UserDAL {
 	public Object getAllUserSettings(String userId) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("userId").is(userId));
-		User user = mongoTemplate.findOne(query, User.class);
+		User1 user = mongoTemplate.findOne(query, User1.class);
 		return user != null ? user.getUserSettings() : "User not found.";
 	}
 
@@ -48,7 +48,7 @@ public class UserDALImpl implements UserDAL {
 		Query query = new Query();
 		query.fields().include("userSettings");
 		query.addCriteria(Criteria.where("userId").is(userId).andOperator(Criteria.where("userSettings." + key).exists(true)));
-		User user = mongoTemplate.findOne(query, User.class);
+		User1 user = mongoTemplate.findOne(query, User1.class);
 		return user != null ? user.getUserSettings().get(key) : "Not found.";
 	}
 
@@ -56,7 +56,7 @@ public class UserDALImpl implements UserDAL {
 	public String addUserSetting(String userId, String key, String value) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("userId").is(userId));
-		User user = mongoTemplate.findOne(query, User.class);
+		User1 user = mongoTemplate.findOne(query, User1.class);
 		if (user != null) {
 			user.getUserSettings().put(key, value);
 			mongoTemplate.save(user);
